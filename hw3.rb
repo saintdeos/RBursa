@@ -53,12 +53,14 @@ class Developer
 
   def task_add(task)
     @work_list << task
-    puts %Q(#{name}: Добавлена задача "#{task}". Всего в списке задач: #{work_list.size})
+    puts %Q(%s: Добавлена задача "%s". Всего в списке задач: %i) %
+    [name, task, work_list.size]
   end
 
   def task_finish
     if can_work?
-      puts %Q(#{name}: Выполнена задача "#{work_list.shift}". Осталось задач: #{work_list.size})
+      puts %Q(%s: Выполнена задача "%s". Осталось задач: %i) %
+      [name, work_list.shift, work_list.size]
     end
   end
 end
@@ -93,6 +95,7 @@ class JuniorDeveloper < Developer
   end
 
   def task_finish
-    puts %Q(#{name}: Пытаюсь делать задачу "#{work_list.shift}". Осталось задач: #{work_list.size})
+    puts %Q(%s: Пытаюсь делать задачу "%s". Осталось задач: %i) %
+    [name, work_list.shift, work_list.size]
   end
 end
