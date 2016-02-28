@@ -15,9 +15,7 @@ class Team
   end
 
   def make_dev(type, group, *names)
-    list = []
-    names.each {|n| list << type.new(n)}
-    @devs[group] = list
+    @devs[group] = names.map{|n| type.new(n)}
   end
 
   def have_seniors(*names)
@@ -63,8 +61,15 @@ class Team
     @devs.values_at(*@pr).flatten.sort_by{|e| e.work_list.size}
   end
 
-  def add_task(task)
-    worker = select_worker.first
+  def add_task(task, **options)
+    case
+    when options[:complexity]
+      worker = select_worker.select{|r| r.rank.eql? options[:complexity]}.first
+    when options[:id]
+      worker = select_worker.select{|n| n.name.eql? options[:id]}.first
+    else
+      worker = select_worker.first
+    end
     worker.add_task(task)
     @devs[worker.rank].call(worker, task)
   end
