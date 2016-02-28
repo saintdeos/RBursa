@@ -5,12 +5,13 @@ require 'pp'
 
 class Team
 
-  attr_reader :team_list, :pr, :groups
+  attr_reader :team_list, :pr, :groups, :bl
 
   def initialize(&block)
     @team_list = []
     @pr = []
     @groups = {}
+    @bl = {}
     instance_eval &block
   end
 
@@ -46,21 +47,36 @@ class Team
   def juniors
     @groups[:juniors]
   end
+
+  def on_task(type, &block)
+    case
+    when type == :junior
+      @bl[type] = block
+    when type == :developer
+      @bl[type] = block
+    else
+      @bl[type] = block
+    end
+  end
   
   def all
-    @groups.values_at(:seniors, :developers, :juniors)
+    @groups.values_at(:seniors, :developers, :juniors).flatten
   end
 
-  def report(*pr)
-    @groups.values_at(pr)
+  def report
+    all.each do |dev|
+      puts "#{dev.name} (#{dev.rank.to_s}): #{dev.work_list.join(", ")}"
+    end
   end
 
   def select_worker
-    @groups.values_at(*@pr).flatten.sort_by{|e| e.work_list}.first
+    @groups.values_at(*@pr).flatten.sort_by{|e| e.work_list.size}
   end
 
   def add_task(task)
-    select_worker.add_task(task)
+    worker = select_worker.first
+    worker.add_task(task)
+    @bl[worker.rank].call(worker, task)
   end
 
 end
