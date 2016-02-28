@@ -1,13 +1,13 @@
-
 class Developer
 
   MAX_TASKS = 10
 
-  attr_reader :name, :work_list
+  attr_reader :name, :work_list, :rank
 
   def initialize(name)
     @name = name
     @work_list = []
+    @rank = :developer
   end
 
   def add_task(task)
@@ -33,8 +33,6 @@ class Developer
     end
   end
 
-  private
-
   def can_add_task?
     @work_list.size >= self.class::MAX_TASKS
   end
@@ -42,6 +40,8 @@ class Developer
   def can_work?
     !@work_list.empty?
   end
+
+  private
 
   def relax
     raise "Нечего делать!"
@@ -69,6 +69,11 @@ class SeniorDeveloper < Developer
 
   MAX_TASKS = 15
 
+  def initialize(name)
+    super
+    @rank = :senior
+  end
+
   def work!
     can_work? ? working : relax
   end
@@ -83,6 +88,11 @@ end
 class JuniorDeveloper < Developer
 
   MAX_TASKS = 5
+
+  def initialize(name)
+    super
+    @rank = :junior
+  end
 
   def add_task(task)
     task_lenght?(task) ? (raise "Слишком сложно!") : super
