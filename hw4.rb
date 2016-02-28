@@ -2,7 +2,7 @@ require_relative './hw3'
 
 class Team
 
-  attr_reader :team_list, :pr, :devs, :bl
+  attr_reader :pr, :devs
 
   def initialize(&block)
     @pr = []
