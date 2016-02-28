@@ -1,7 +1,5 @@
 class Developer
 
-  MAX_TASKS = 10
-
   attr_reader :name, :work_list, :rank
 
   def initialize(name)
@@ -11,7 +9,9 @@ class Developer
   end
 
   def add_task(task)
-    can_add_task? ? busy : task_add(task)
+    @work_list << task
+    puts %Q(%s: Добавлена задача "%s". Всего в списке задач: %i) %
+    [name, task, work_list.size]
   end
 
   def work!
@@ -22,21 +22,6 @@ class Developer
     @work_list.map.with_index { |task, num| %Q(#{num+1}. "#{task}") }
   end
 
-  def status
-    case @work_list.size
-    when self.class::MAX_TASKS
-      'Занят'
-    when 0
-      'Свободен'
-    else
-      'Работаю'
-    end
-  end
-
-  def can_add_task?
-    @work_list.size >= self.class::MAX_TASKS
-  end
-
   def can_work?
     !@work_list.empty?
   end
@@ -44,17 +29,7 @@ class Developer
   private
 
   def relax
-    raise "Нечего делать!"
-  end
-
-  def busy
-    raise "Слишком много работы"
-  end
-
-  def task_add(task)
-    @work_list << task
-    puts %Q(%s: Добавлена задача "%s". Всего в списке задач: %i) %
-    [name, task, work_list.size]
+    puts "Нечего делать!"
   end
 
   def task_finish
@@ -66,8 +41,6 @@ class Developer
 end
 
 class SeniorDeveloper < Developer
-
-  MAX_TASKS = 15
 
   def initialize(name)
     super
@@ -87,22 +60,12 @@ end
 
 class JuniorDeveloper < Developer
 
-  MAX_TASKS = 5
-
   def initialize(name)
     super
     @rank = :junior
   end
 
-  def add_task(task)
-    task_lenght?(task) ? (raise "Слишком сложно!") : super
-  end
-
   private
-
-  def task_lenght?(task)
-    task.size >= 20
-  end
 
   def task_finish
     puts %Q(%s: Пытаюсь делать задачу "%s". Осталось задач: %i) %

@@ -1,17 +1,12 @@
 require_relative './hw3'
 
-require 'byebug'
-require 'pp'
-
 class Team
 
-  attr_reader :team_list, :pr, :groups, :bl
+  attr_reader :team_list, :pr, :devs, :bl
 
   def initialize(&block)
-    @team_list = []
     @pr = []
-    @groups = {}
-    @bl = {}
+    @devs = {}
     instance_eval &block
   end
 
@@ -20,8 +15,9 @@ class Team
   end
 
   def make_dev(type, group, *names)
-    names.each {|n| @team_list << type.new(n)}
-    @groups[group] = @team_list.select{|obj| obj.class.eql? type}
+    list = []
+    names.each {|n| list << type.new(n)}
+    @devs[group] = list
   end
 
   def have_seniors(*names)
@@ -37,46 +33,39 @@ class Team
   end
 
   def seniors
-    @groups[:seniors]
+    @devs[:seniors]
   end
 
   def developers
-    @groups[:developers]
+    @devs[:developers]
   end
 
   def juniors
-    @groups[:juniors]
+    @devs[:juniors]
   end
 
   def on_task(type, &block)
-    case
-    when type == :junior
-      @bl[type] = block
-    when type == :developer
-      @bl[type] = block
-    else
-      @bl[type] = block
-    end
+    @devs[type] = block
   end
   
   def all
-    @groups.values_at(:seniors, :developers, :juniors).flatten
+    @devs.values_at(:seniors, :developers, :juniors).flatten
   end
 
   def report
     all.each do |dev|
-      puts "#{dev.name} (#{dev.rank.to_s}): #{dev.work_list.join(", ")}"
+      puts "%s (%s): %s" %
+        [dev.name, dev.rank, dev.work_list.join(", ")]
     end
   end
 
   def select_worker
-    @groups.values_at(*@pr).flatten.sort_by{|e| e.work_list.size}
+    @devs.values_at(*@pr).flatten.sort_by{|e| e.work_list.size}
   end
 
   def add_task(task)
     worker = select_worker.first
     worker.add_task(task)
-    @bl[worker.rank].call(worker, task)
+    @devs[worker.rank].call(worker, task)
   end
-
 end

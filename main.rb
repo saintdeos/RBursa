@@ -1,7 +1,8 @@
 require 'byebug'
+require 'pp'
 require_relative './hw4'
 
-byebug
+# byebug
 t = Team.new do 
   have_seniors "Олег", "Оксана"
   have_developers "Олеся", "Василий", "Игорь-Богдан"
@@ -28,16 +29,10 @@ def works_dict
   works_dict.sample
 end
 
-15.times { t.add_task(works_dict) }
-# pp t.add_task('taste food')
-# pp t.add_task('taste food')
-# pp t.add_task('taste food')
-# pp t.add_task('taste food')
-# pp t.add_task('taste food')
-# pp t.add_task('taste food')
-pp t.report
-# pp t.all
-
 # pp t.juniors
-# pp t.seniors
 # pp t.developers
+# pp t.seniors
+pp t.devs
+# 15.times { t.add_task(works_dict) }
+# pp t.juniors
+# pp t.report
