@@ -1,0 +1,26 @@
+<h2>Новая статья</h2>
+
+<%= form_for @petitions do |f| %>
+  <% if @petitions.errors.any? %>
+
+    <div>
+      <h2>Form is invalid</h2>
+      <ul>
+        <% @petitions.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+
+  <% end %>
+
+  <div>
+    <%= f.label :title, 'Название' %><br />
+    <%= f.text_field :title %>
+    <br/>
+    <%= f.label :text, 'Описание' %><br />
+    <%= f.text_area :text %>
+
+    <%= submit_tag 'Cоздать' %>
+  </div>
+<% end %>

@@ -1,0 +1,9 @@
+<table style="border: solid 2px red">
+  <% @petitions.each_with_index do |petition, index| %>
+    <tr>
+      <td>
+        <%= link_to petition.title, "petitions/#{index+1}" %>
+      </td>
+    </tr>
+  <% end %>
+</table>
