@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20160306125506) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "petitions", ["user_id"], name: "index_petitions_on_user_id"
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"

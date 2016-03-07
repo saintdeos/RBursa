@@ -3,8 +3,7 @@ class User < ActiveRecord::Base
 	before_save :encrypt_password
 
   validates_confirmation_of :password
-  validates_presence_of :password, :on => :create
-  validates_presence_of :email
+  validates_presence_of :email, :password, on: :create
   validates_uniqueness_of :email
 
   def encrypt_password
@@ -22,8 +21,4 @@ class User < ActiveRecord::Base
     	nil
   	end
 	end
-
-	def user_params
-  	params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
-  end
 end
