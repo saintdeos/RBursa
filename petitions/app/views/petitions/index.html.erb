@@ -1,9 +1,22 @@
-<table style="border: solid 2px red">
-  <% @petitions.each_with_index do |petition, index| %>
+<h2><%= params[:my] ? 'Мои' : 'Все' %> петиции</h2>
+
+<% if params[:my] %>
+  <%= render "my" %>
+<% else %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Петиция</th>
+        <th>Автор</th>
+        <th>Дата создания</th>
+      </tr>
+    </thead>
+    <% @petitions.each_with_index do |petition, index| %>
     <tr>
-      <td>
-        <%= link_to petition.title, "petitions/#{index+1}" %>
-      </td>
+      <td><%= link_to petition.title, "petitions/#{petition.id}" %></td>
+      <td><%= petition.user.first_name + " " + petition.user.last_name %></td>
+      <td><%= petition.created_at.strftime("%d/%m/%Y %H:%M") %></td>
     </tr>
-  <% end %>
-</table>
+    <% end %>
+  </table>
+<% end %>

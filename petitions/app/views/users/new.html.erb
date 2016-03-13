@@ -1,4 +1,6 @@
-<h1>Sign Up</h1>
+<div style="margin: 15px">
+  <h2>Регистрация</h2>
+</div>
 
 <%= form_for @user do |f| %>
   <% if @user.errors.any? %>
@@ -11,25 +13,27 @@
       </ul>
     </div>
   <% end %>
-  <p>
-    <%= f.label :first_name %><br />
-    <%= f.text_field :first_name %>
-  </p>
-  <p>
-    <%= f.label :last_name %><br />
-    <%= f.text_field :last_name %>
-  </p>
-  <p>
-    <%= f.label :email %><br />
-    <%= f.text_field :email %>
-  </p>
-  <p>
-    <%= f.label :password %><br />
-    <%= f.password_field :password %>
-  </p>
-  <p>
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation %>
-  </p>
-  <p class="button"><%= f.submit %></p>
+  <div style="margin: 15px">
+    <div class="form-group" style="width: 256px">
+      <%= f.label :first_name, 'Имя'%><br />
+      <%= f.text_field :first_name, class: 'form-control' %>
+    </div>
+    <div class="form-group" style="width: 256px">
+      <%= f.label :last_name, 'Фамилия'%><br />
+      <%= f.text_field :last_name, class: 'form-control' %>
+    </div>
+    <div class="form-group" style="width: 256px">
+      <%= f.label :email, 'E-mail' %><br />
+      <%= f.text_field :email, class: 'form-control' %>
+    </div>
+    <div class="form-group" style="width: 256px">
+      <%= f.label :password, 'Пароль' %><br />
+      <%= f.password_field :password, class: 'form-control' %>
+    </div>
+    <div class="form-group" style="width: 256px">
+      <%= f.label :password_confirmation, 'Подтверждение пароля' %><br />
+      <%= f.password_field :password_confirmation, class: 'form-control' %>
+    </div>
+    <div class="actions"><%= f.submit "Зарегистрироваться", class: 'btn btn-default' %></div>
+  </div>
 <% end %>
