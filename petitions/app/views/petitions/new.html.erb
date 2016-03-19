@@ -2,13 +2,13 @@
   <h2>Новая Петиция</h2>
 </div>
 
-<%= form_for @petitions do |f| %>
-  <% if @petitions.errors.any? %>
+<%= form_for @petition do |f| %>
+  <% if @petition.errors.any? %>
 
     <div>
       <h2>Form is invalid</h2>
       <ul>
-        <% @petitions.errors.full_messages.each do |message| %>
+        <% @petition.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
