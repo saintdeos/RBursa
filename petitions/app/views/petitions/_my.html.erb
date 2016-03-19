@@ -2,6 +2,7 @@
   <thead>
     <tr>
       <th>Петиция</th>
+      <th>Голоса</th>
       <th>Дата создания</th>
       <th>Действия</th>
     </tr>
@@ -9,6 +10,7 @@
   <% @petitions.each_with_index do |petition, index| %>
   <tr>
     <td><%= link_to petition.title, "petitions/#{index+1}" %></td>
+    <td><%= petition.votes.count %></td>
     <td><%= petition.created_at.strftime("%d/%m/%Y %H:%M") %></td>
     <td><%= link_to "Редактировать", edit_petition_path(petition)%>
     <%= link_to "Удалить", petition_path(petition), method: :delete, data: { confirm: 'Уверены?' } %></td>
