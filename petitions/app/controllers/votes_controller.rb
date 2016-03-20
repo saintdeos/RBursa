@@ -6,8 +6,8 @@ class VotesController < ApplicationController
     votes = Vote.where(permitted_params).count
     if votes >= Vote::VOTES_MAX
       petition = vote.petition
-      UserMailer.votes_recruited(petition, votes).deliver_now
-      UserMailer.admin_votes_recruited(petition, votes).deliver_now
+      UserMailer.votes_recruited(petition, votes).deliver_later
+      UserMailer.admin_votes_recruited(petition, votes).deliver_later
     end
     flash["alert-success"] = 'Спасибо! Ваш голос учтен'
     redirect_to vote.petition

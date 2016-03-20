@@ -6,7 +6,7 @@ namespace :votes do
       votes = p.votes.count
       if p.expired?(p.created_at)
         p.update(expired: true)
-        UserMailer.votes_time_expired(p, votes).deliver_now
+        UserMailer.votes_time_expired(p, votes).deliver_later
       end
     end
   end

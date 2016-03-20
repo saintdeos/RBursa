@@ -8,7 +8,7 @@
 set :environment, :development 
 set :output, "~/log/cron_log.log"
 #
-every 1.minutes do
+every 1.day, :at => '0:01 am' do
   # command "/usr/bin/some_great_command"
   # runner "MyModel.some_method"
   rake "votes:VotingEndingJob"
