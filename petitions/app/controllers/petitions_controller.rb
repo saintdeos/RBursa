@@ -12,7 +12,7 @@ class PetitionsController < ApplicationController
 
   def edit
     @petition = current_user.petitions.find(params[:id])
-    if @petition.created_at < 2.day.ago
+    if @petition.expired?(@petition.created_at)
       flash["alert-danger"] = 'Петиция закрыта'
       redirect_to petitions_path(my: true)
     else
@@ -29,7 +29,6 @@ class PetitionsController < ApplicationController
 
   def create
     petition = current_user.petitions.create(petition_params)
-    UserMailer.petition_create(petition).deliver_now
     redirect_to petition
   end
 

@@ -14,7 +14,7 @@
 </p>
 
 <p>
-  <% if @petition.created_at < 2.day.ago %>
+  <% if @petition.expired?(@petition.created_at) %>
     Время голосования истекло
   <% elsif @petition.voted_by?(current_user) %>
     Вы уже проголосовали за данную петицию

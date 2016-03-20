@@ -4,6 +4,6 @@ class Vote < ActiveRecord::Base
 
   validates :user_id, uniqueness: { scope: :petition_id }
 
-  VOTES = 1
+  VOTES_MAX = 1
 
 end
