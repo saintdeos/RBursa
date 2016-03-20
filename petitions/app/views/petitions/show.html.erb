@@ -14,7 +14,9 @@
 </p>
 
 <p>
-  <% if @petition.voted_by?(current_user) %>
+  <% if @petition.created_at < 2.day.ago %>
+    Время голосования истекло
+  <% elsif @petition.voted_by?(current_user) %>
     Вы уже проголосовали за данную петицию
   <% else %>
     <%= button_to('Поддержать', votes_path({ petition_id: @petition.id }), class: 'btn btn-default' ) %>
