@@ -23,6 +23,7 @@ class PetitionsController < ApplicationController
 
   def create
     petition = current_user.petitions.create(petition_params)
+    UserMailer.petition_create(petition).deliver_now
     redirect_to petition
   end
 

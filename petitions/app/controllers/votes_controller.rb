@@ -3,6 +3,11 @@ class VotesController < ApplicationController
 
   def create
     vote = current_user.votes.create(permitted_params)
+    votes = Vote.where(permitted_params).count
+    if votes >= Vote::VOTES
+      petition = vote.petition
+      UserMailer.votes_recruited(petition, votes).deliver_now
+    end
     flash["alert-success"] = 'Спасибо! Ваш голос учтен'
     redirect_to vote.petition
   end
