@@ -7,37 +7,37 @@ class PetitionsController < ApplicationController
   end
 
   def show
-    @petitions = Petition.find(params[:id])
+    @petition = Petition.find(params[:id])
   end
 
   def edit
-    petition = Petition.find(params[:id])
+    @petition = current_user.petitions.find(params[:id])
+    if @petition.expired?(@petition.created_at)
+      flash["alert-danger"] = 'Петиция закрыта'
+      redirect_to petitions_path(my: true)
+    else
+      @petition
+    end
   end
 
   def update
-    petition = Petition.find(params[:id])
-    if petition.update(petition_params)
-      redirect_to petition_path
-    else
-      render 'edit'
-    end
+    petition = current_user.petitions.find(params[:id])
+    petition.update(petition_params)
+    flash["alert-success"] = 'Петиция обновлена'
+    redirect_to petition
   end
 
   def create
-    petition = Petition.create(petition_params.merge({user_id: current_user.id}))
-    if petition.save
-      redirect_to petition_path(petition)
-    else
-      render 'new'
-    end
+    petition = current_user.petitions.create(petition_params)
+    redirect_to petition
   end
 
   def new
-    @petitions = Petition.new
+    @petition = Petition.new
   end
 
   def destroy
-    petition = Petition.find(params[:id])
+    petition = current_user.petitions.find(params[:id])
     petition.destroy
     flash["alert-success"] = 'Петиция удалена'
     redirect_to petitions_path

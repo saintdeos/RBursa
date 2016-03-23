@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
   validates_presence_of :email, :password, on: :create
   validates_uniqueness_of :email
 
+  has_many :petitions
+  has_many :votes
+
   def encrypt_password
   	if password.present?
       self.password_salt = BCrypt::Engine.generate_salt

@@ -1,6 +1,24 @@
 <div style="margin: 15px">
-  <h2><%= @petitions.title %></h2>
+  <h3><%= @petition.title %></h3>
+</div>
+<div style="margin: 20px">
+  <%= @petition.created_at.strftime('%d/%m/%Y %H:%M') %>
 </div>
 <div style="margin: 30px">
-  <%= @petitions.text %>
+  <%= @petition.text %>
 </div>
+
+<p>
+  <b>Голосов:</b>
+  <%= @petition.votes.count %>
+</p>
+
+<p>
+  <% if @petition.expired?(@petition.created_at) %>
+    Время голосования истекло
+  <% elsif @petition.voted_by?(current_user) %>
+    Вы уже проголосовали за данную петицию
+  <% else %>
+    <%= button_to('Поддержать', votes_path({ petition_id: @petition.id }), class: 'btn btn-default' ) %>
+  <% end %>
+</p>

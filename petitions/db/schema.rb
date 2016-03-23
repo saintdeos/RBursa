@@ -11,14 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160313192644) do
+ActiveRecord::Schema.define(version: 20160320184342) do
 
   create_table "petitions", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "title"
     t.text     "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "expired",    default: false
   end
 
   add_index "petitions", ["user_id"], name: "index_petitions_on_user_id"
